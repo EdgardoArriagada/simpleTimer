@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest --maxWorkers=25%",
+    "test:unit:watch": "npm run test -- --watch --no-coverage"
   },
   "dependencies": {
     "react": "18.2.0",
