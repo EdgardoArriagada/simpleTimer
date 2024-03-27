@@ -12,3 +12,9 @@ export const formatSecondsToClock = (seconds: number): string => {
 
   return `${minutes}:${remainingSeconds}`;
 };
+
+export const formatClockToSeconds = (clock: string): number => {
+  const [minutes, seconds] = clock.split(':').map(Number);
+
+  return minutes * 60 + seconds;
+};
