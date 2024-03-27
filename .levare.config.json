@@ -1,0 +1,46 @@
+{
+  "options": [
+    {
+      "name": "Screen",
+      "source": "screen/",
+      "replaces": [
+        {
+          "key": "screen-name",
+          "case": "pascal"
+        },
+        {
+          "key": "screen-placeholder",
+          "default": "{{levare::screen-name}}",
+          "automatic": true,
+          "case": "title"
+        }
+      ]
+    },
+    {
+      "name": "Component",
+      "source": "component/",
+      "replaces": [
+        {
+          "key": "component-name",
+          "case": "pascal"
+        },
+        {
+          "key": "component-placeholder",
+          "default": "{{levare::component-name}}",
+          "automatic": true,
+          "case": "title"
+        }
+      ]
+    },
+    {
+      "name": "Hook",
+      "source": "hook/",
+      "replaces": [
+        {
+          "key": "hook-name",
+          "case": "camel"
+        }
+      ]
+    }
+  ]
+}
