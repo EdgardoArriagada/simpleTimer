@@ -1,11 +1,12 @@
+import {renderHook} from '@testing-library/react-native';
 import {{{levare::hook-name}}} from '../{{levare::hook-name}}';
 
 const setup = () => {
-  const result = renderHook(() => {{{levare::hook-name}}}());
+  const result = renderHook(() => {{levare::hook-name}}());
   return result;
 };
 
 test('should return the initial value', () => {
-  const { result } = setup();
+  const {result} = setup();
   expect(result.current).toBe(0);
-}
+});
