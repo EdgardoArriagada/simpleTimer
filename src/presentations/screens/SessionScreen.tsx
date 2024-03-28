@@ -29,7 +29,6 @@ const ReadySession: FC<ReadySessionProps> = ({start}) => {
 
 export const SessionScreen: FC = () => {
   const [countdown, isRunning, start] = useCountdown(INITIAL_SESSION_DURATION);
-  console.log('le isRunning', isRunning);
 
   return (
     <View style={s.container}>
