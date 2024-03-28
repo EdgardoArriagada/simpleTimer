@@ -15,11 +15,13 @@ const setup = () => {
   return result;
 };
 
-test('should run countdown', () => {
+it('should run countdown', () => {
   const {result} = setup();
+
   act(() => {
     result.current[2]();
   });
+
   expect(result.current[0]).toBe(initialValue);
 
   runOneSecond();
@@ -33,4 +35,10 @@ test('should run countdown', () => {
 
   runOneSecond();
   expect(result.current[0]).toBe(0);
+});
+
+it('should not run countdown if not started', () => {
+  const {result} = setup();
+  runOneSecond();
+  expect(result.current[0]).toBe(initialValue);
 });
