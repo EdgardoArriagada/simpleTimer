@@ -17,17 +17,20 @@ const setup = () => {
 
 test('should run countdown', () => {
   const {result} = setup();
-  expect(result.current).toBe(initialValue);
+  act(() => {
+    result.current[2]();
+  });
+  expect(result.current[0]).toBe(initialValue);
 
   runOneSecond();
-  expect(result.current).toBe(2);
+  expect(result.current[0]).toBe(2);
 
   runOneSecond();
-  expect(result.current).toBe(1);
+  expect(result.current[0]).toBe(1);
 
   runOneSecond();
-  expect(result.current).toBe(0);
+  expect(result.current[0]).toBe(0);
 
   runOneSecond();
-  expect(result.current).toBe(0);
+  expect(result.current[0]).toBe(0);
 });
