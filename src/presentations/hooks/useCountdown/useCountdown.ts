@@ -29,6 +29,7 @@ export const useCountdown = (seconds: number) => {
 
     if (isRunning) {
       setIsRunning(false);
+      setCountdown(seconds);
     }
   }
 
