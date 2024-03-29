@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 
 import {View, Text} from 'react-native';
 
@@ -19,10 +19,6 @@ type Props = {
 export const TimePicker: FC<Props> = ({onConfirm, initialTime}) => {
   const [minutes, setMinutes] = useState(() => initialTime.split(':')[0]);
   const [seconds, setSeconds] = useState(() => initialTime.split(':')[1]);
-
-  useEffect(() => {
-    console.log('start');
-  }, []);
 
   return (
     <View
