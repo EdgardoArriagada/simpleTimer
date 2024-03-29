@@ -1,7 +1,9 @@
 import {FC, ComponentProps} from 'react';
-import {Pressable, StyleSheet, Text} from 'react-native';
+import {Pressable, StyleProp, StyleSheet, Text, ViewStyle} from 'react-native';
 
-type Props = ComponentProps<typeof Pressable>;
+type Props = ComponentProps<typeof Pressable> & {
+  style?: StyleProp<ViewStyle>;
+};
 
 export const Button: FC<Props> = props => {
   const children = props.children || 'Button';
