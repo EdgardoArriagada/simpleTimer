@@ -1,19 +1,12 @@
 import React, {FC, useState} from 'react';
 
-import {View, Text} from 'react-native';
-
-import WheelPicker from 'react-native-wheely';
-
-const makeTimeElements = (length: number) =>
-  Array.from({length}, (_, i) => i.toString().padStart(2, '0'));
-
-const allMinutes = makeTimeElements(60);
-const allHours = makeTimeElements(24);
+import {View, Text, Modal} from 'react-native';
+import {TimePicker} from '../components/TimePicker';
+import {Button} from '../components/Button';
 
 export const SessionSettingsScreen: FC = () => {
-  const [hour, setHour] = useState(() => allHours[0]);
-  const [minute, setMinute] = useState(() => allMinutes[0]);
-
+  const [time, setTime] = useState('00:10');
+  const [isEditTimeVisible, setIsEditTimeVisible] = useState(false);
   return (
     <View
       style={{
@@ -22,17 +15,23 @@ export const SessionSettingsScreen: FC = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <WheelPicker
-        selectedIndex={allMinutes.indexOf(minute)}
-        options={allMinutes}
-        onChange={index => setMinute(allMinutes[index])}
-      />
-      <Text>:</Text>
-      <WheelPicker
-        selectedIndex={allHours.indexOf(hour)}
-        options={allHours}
-        onChange={index => setHour(allHours[index])}
-      />
+      <Text>{time}</Text>
+      <Button onPress={() => setIsEditTimeVisible(true)}>Edit Time</Button>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isEditTimeVisible}
+        onRequestClose={() => {
+          setIsEditTimeVisible(false);
+        }}>
+        <TimePicker
+          initialTime={time}
+          onConfirm={confirmTime => {
+            setTime(confirmTime);
+            setIsEditTimeVisible(false);
+          }}
+        />
+      </Modal>
     </View>
   );
 };

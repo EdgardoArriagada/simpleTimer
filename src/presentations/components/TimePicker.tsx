@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 
 import {View, Text} from 'react-native';
 
@@ -9,15 +9,20 @@ const makeTimeElements = (length: number) =>
   Array.from({length}, (_, i) => i.toString().padStart(2, '0'));
 
 const allMinutes = makeTimeElements(60);
-const allHours = makeTimeElements(24);
+const allSeconds = makeTimeElements(60);
 
 type Props = {
-  onConfirm: (hour: string, minute: string) => void;
+  onConfirm: (time: string) => void;
+  initialTime: string;
 };
 
-export const TimePicker: FC<Props> = ({onConfirm}) => {
-  const [hour, setHour] = useState(() => allHours[0]);
-  const [minute, setMinute] = useState(() => allMinutes[0]);
+export const TimePicker: FC<Props> = ({onConfirm, initialTime}) => {
+  const [minutes, setMinutes] = useState(() => initialTime.split(':')[0]);
+  const [seconds, setSeconds] = useState(() => initialTime.split(':')[1]);
+
+  useEffect(() => {
+    console.log('start');
+  }, []);
 
   return (
     <View
@@ -28,17 +33,19 @@ export const TimePicker: FC<Props> = ({onConfirm}) => {
         alignItems: 'center',
       }}>
       <WheelPicker
-        selectedIndex={allMinutes.indexOf(minute)}
+        selectedIndex={allMinutes.indexOf(minutes)}
         options={allMinutes}
-        onChange={index => setMinute(allMinutes[index])}
+        onChange={index => setMinutes(allMinutes[index])}
       />
       <Text>:</Text>
       <WheelPicker
-        selectedIndex={allHours.indexOf(hour)}
-        options={allHours}
-        onChange={index => setHour(allHours[index])}
+        selectedIndex={allSeconds.indexOf(seconds)}
+        options={allSeconds}
+        onChange={index => setSeconds(allSeconds[index])}
       />
-      <Button onPress={() => onConfirm(hour, minute)}>Confirm</Button>
+      <Button onPress={() => onConfirm(`${minutes}:${seconds}`)}>
+        Confirm
+      </Button>
     </View>
   );
 };
