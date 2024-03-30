@@ -1,7 +1,8 @@
 import {useEffect, useRef, useState} from 'react';
 
-export const useCountdown = () => {
+export const useCountdown = (onFinish?: (startSeconds: number) => void) => {
   const [countdown, setCountdown] = useState(0);
+  const [startSeconds, setStartSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
 
   const interval = useRef<NodeJS.Timeout | null>(null);
@@ -16,6 +17,7 @@ export const useCountdown = () => {
 
   const start = (seconds: number) => {
     setCountdown(seconds);
+    setStartSeconds(seconds);
     interval.current = setInterval(() => {
       setCountdown(prev => prev - 1);
     }, 1000);
@@ -27,6 +29,7 @@ export const useCountdown = () => {
     clearInterval(interval.current!);
 
     if (isRunning) {
+      onFinish?.(startSeconds);
       setIsRunning(false);
     }
   }

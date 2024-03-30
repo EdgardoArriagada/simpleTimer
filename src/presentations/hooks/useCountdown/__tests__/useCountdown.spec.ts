@@ -11,8 +11,10 @@ const runOneSecond = () =>
 const initialValue = 3;
 
 const setup = () => {
-  const result = renderHook(() => useCountdown());
-  return result;
+  const onFinish = jest.fn();
+
+  const result = renderHook(() => useCountdown(onFinish));
+  return {...result, onFinish};
 };
 
 const getExpect = (args: {countdown: number; isRunning: boolean}) => [
@@ -72,4 +74,24 @@ it('should not run countdown if not started', () => {
   runOneSecond();
 
   expect(result.current).toStrictEqual(CLEAR_STATE);
+});
+
+it('should run onFinish fn', () => {
+  const initialSeconds = 2;
+  const {result, onFinish} = setup();
+
+  expect(onFinish).not.toHaveBeenCalled();
+
+  act(() => {
+    result.current[2](initialSeconds);
+  });
+
+  runOneSecond();
+
+  expect(onFinish).not.toHaveBeenCalled();
+
+  runOneSecond();
+
+  expect(onFinish).toHaveBeenCalledTimes(1);
+  expect(onFinish).toHaveBeenCalledWith(initialSeconds);
 });
