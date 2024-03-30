@@ -4,6 +4,17 @@ import {useCountdown} from '../hooks/useCountdown';
 import {formatSecondsToClock} from '../utils/time/time';
 import {Button} from '../components/Button';
 import {useMemoizedClock, useSessionStore} from '../store/session-store';
+import soundAsset from '../assets/xylofon.wav';
+import Sound from 'react-native-sound';
+
+Sound.setCategory('Alarm');
+
+const sound = new Sound(soundAsset, Sound.MAIN_BUNDLE, error => {
+  if (error) {
+    console.log('failed to load the sound', error);
+    return;
+  }
+});
 
 type ReadySessionProps = {
   start: () => void;
@@ -69,6 +80,7 @@ export const SessionScreen: FC = () => {
     } else {
       setRepeatsLog([...repeatsLog, formatSecondsToClock(startSeconds)]);
     }
+    sound.play();
   });
 
   return (
