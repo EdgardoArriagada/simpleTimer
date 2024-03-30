@@ -39,18 +39,41 @@ const RepeatsLogList: FC<{repeatsLog: string[]}> = ({repeatsLog}) => {
   }, [repeatsLog]);
 };
 
+const SerieLogList: FC<{seriesLog: string[]}> = ({seriesLog}) => {
+  return useMemo(() => {
+    return (
+      <View>
+        {seriesLog.map((serie, index) => (
+          <Text key={index}>{serie}</Text>
+        ))}
+      </View>
+    );
+  }, [seriesLog]);
+};
+
+const isGoingToFinishSerie = (repeatsLogs: string[], repeats: number) =>
+  repeatsLogs.length + 1 === repeats;
+
 export const SessionScreen: FC = () => {
   const [repeatsLog, setRepeatsLog] = useState<string[]>([]);
+  const [seriesLog, setSeriesLog] = useState<string[]>([]);
 
   const seconds = useSessionStore(state => state.seconds);
   const time = useMemoizedClock();
+  const repeats = useSessionStore(state => state.repeats);
 
   const [countdown, isRunning, start] = useCountdown(startSeconds => {
-    setRepeatsLog([...repeatsLog, formatSecondsToClock(startSeconds)]);
+    if (isGoingToFinishSerie(repeatsLog, repeats)) {
+      setSeriesLog([...seriesLog, `Serie of ${repeats} repeats finished`]);
+      setRepeatsLog([]);
+    } else {
+      setRepeatsLog([...repeatsLog, formatSecondsToClock(startSeconds)]);
+    }
   });
 
   return (
     <View style={s.container}>
+      <SerieLogList seriesLog={seriesLog} />
       <RepeatsLogList repeatsLog={repeatsLog} />
       {isRunning && <Text>{formatSecondsToClock(countdown)}</Text>}
       {!isRunning && <ReadySession start={() => start(seconds)} time={time} />}
