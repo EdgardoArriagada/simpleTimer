@@ -4,6 +4,7 @@ import {View, Text, Modal} from 'react-native';
 import {TimePicker} from '../components/TimePicker';
 import {Button} from '../components/Button';
 import {useMemoizedClock, useSessionStore} from '../store/session-store';
+import {NumberPicker} from '../components/NumberPicker';
 
 enum Modals {
   None,
@@ -14,6 +15,7 @@ enum Modals {
 export const SessionSettingsScreen: FC = () => {
   const time = useMemoizedClock();
   const repeats = useSessionStore(state => state.repeats);
+  const changeRepeats = useSessionStore(state => state.changeRepeats);
   const changeSecondsFromTime = useSessionStore(
     state => state.changeSecondsFromTime,
   );
@@ -38,10 +40,10 @@ export const SessionSettingsScreen: FC = () => {
         transparent={true}
         visible={visibleModal === Modals.EditRepeats}
         onRequestClose={closeModal}>
-        <TimePicker
-          initialTime={time}
-          onConfirm={confirmTime => {
-            changeSecondsFromTime(confirmTime);
+        <NumberPicker
+          initialNumber={repeats}
+          onConfirm={newRepeats => {
+            changeRepeats(newRepeats);
             closeModal();
           }}
         />
