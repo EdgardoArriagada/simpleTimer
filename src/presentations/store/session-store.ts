@@ -1,14 +1,22 @@
+import {useMemo} from 'react';
 import {create} from 'zustand';
-import {formatClockToSeconds} from '../utils/time/time';
+import {formatSecondsToClock} from '../utils/time/time';
 
 export type SessionStore = {
-  time: string;
-  changeTime: (time: string) => void;
-  getTimeAsSeconds: () => number;
+  seconds: number;
+  changeSeconds: (seconds: number) => void;
+  changeSecondsFromTime: (time: string) => void;
 };
 
-export const useSessionStore = create<SessionStore>()((set, get) => ({
-  time: '00:10',
-  changeTime: (time: string) => set({time}),
-  getTimeAsSeconds: () => formatClockToSeconds(get().time),
+export const useSessionStore = create<SessionStore>()(set => ({
+  seconds: 10,
+  changeSeconds: (seconds: number) => set({seconds}),
+  changeSecondsFromTime: (time: string) =>
+    set({seconds: formatClockToSeconds(time)}),
 }));
+
+export const useMemoizedClock = () => {
+  const seconds = useSessionStore(state => state.seconds);
+
+  return useMemo(() => formatSecondsToClock(seconds), [seconds]);
+};

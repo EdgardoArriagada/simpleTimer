@@ -3,7 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import {useCountdown} from '../hooks/useCountdown';
 import {formatSecondsToClock} from '../utils/time/time';
 import {Button} from '../components/Button';
-import {useSessionStore} from '../store/session-store';
+import {useMemoizedClock, useSessionStore} from '../store/session-store';
 
 type ReadySessionProps = {
   start: () => void;
@@ -28,8 +28,8 @@ const ReadySession: FC<ReadySessionProps> = ({start, time}) => {
 };
 
 export const SessionScreen: FC = () => {
-  const seconds = useSessionStore(state => state.getTimeAsSeconds());
-  const time = useSessionStore(state => state.time);
+  const seconds = useSessionStore(state => state.seconds);
+  const time = useMemoizedClock();
   const [countdown, isRunning, start] = useCountdown();
 
   return (
