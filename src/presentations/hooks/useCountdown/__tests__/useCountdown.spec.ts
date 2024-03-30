@@ -11,7 +11,7 @@ const runOneSecond = () =>
 const initialValue = 3;
 
 const setup = () => {
-  const result = renderHook(() => useCountdown(initialValue));
+  const result = renderHook(() => useCountdown());
   return result;
 };
 
@@ -21,15 +21,15 @@ const getExpect = (args: {countdown: number; isRunning: boolean}) => [
   expect.any(Function),
 ];
 
-const INITIAL_STATE = [initialValue, false, expect.any(Function)] as const;
+const CLEAR_STATE = [0, false, expect.any(Function)] as const;
 
 it('should run countdown', () => {
   const {result} = setup();
 
-  expect(result.current).toStrictEqual(INITIAL_STATE);
+  expect(result.current).toStrictEqual(CLEAR_STATE);
 
   act(() => {
-    result.current[2]();
+    result.current[2](initialValue);
   });
 
   expect(result.current).toStrictEqual(
@@ -59,15 +59,17 @@ it('should run countdown', () => {
 
   runOneSecond();
 
-  expect(result.current).toStrictEqual(INITIAL_STATE);
+  expect(result.current).toStrictEqual(CLEAR_STATE);
 
   runOneSecond();
 
-  expect(result.current).toStrictEqual(INITIAL_STATE);
+  expect(result.current).toStrictEqual(CLEAR_STATE);
 });
 
 it('should not run countdown if not started', () => {
   const {result} = setup();
+
   runOneSecond();
-  expect(result.current).toStrictEqual(INITIAL_STATE);
+
+  expect(result.current).toStrictEqual(CLEAR_STATE);
 });
