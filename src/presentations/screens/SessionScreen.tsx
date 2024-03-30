@@ -1,4 +1,4 @@
-import {FC, useState} from 'react';
+import {FC, useMemo, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useCountdown} from '../hooks/useCountdown';
 import {formatSecondsToClock} from '../utils/time/time';
@@ -27,23 +27,31 @@ const ReadySession: FC<ReadySessionProps> = ({start, time}) => {
   );
 };
 
+const RepeatsLogList: FC<{repeatsLog: string[]}> = ({repeatsLog}) => {
+  return useMemo(() => {
+    return (
+      <View>
+        {repeatsLog.map((repeat, index) => (
+          <Text key={index}>{repeat}</Text>
+        ))}
+      </View>
+    );
+  }, [repeatsLog]);
+};
+
 export const SessionScreen: FC = () => {
-  const [repeats, setRepeats] = useState<string[]>([]);
+  const [repeatsLog, setRepeatsLog] = useState<string[]>([]);
 
   const seconds = useSessionStore(state => state.seconds);
   const time = useMemoizedClock();
 
   const [countdown, isRunning, start] = useCountdown(startSeconds => {
-    setRepeats([...repeats, formatSecondsToClock(startSeconds)]);
+    setRepeatsLog([...repeatsLog, formatSecondsToClock(startSeconds)]);
   });
 
   return (
     <View style={s.container}>
-      {repeats.map((repeat, index) => (
-        <Text style={{fontSize: 20}} key={index}>
-          {repeat}
-        </Text>
-      ))}
+      <RepeatsLogList repeatsLog={repeatsLog} />
       {isRunning && <Text>{formatSecondsToClock(countdown)}</Text>}
       {!isRunning && <ReadySession start={() => start(seconds)} time={time} />}
     </View>
