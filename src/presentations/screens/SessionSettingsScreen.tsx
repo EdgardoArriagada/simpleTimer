@@ -5,35 +5,64 @@ import {TimePicker} from '../components/TimePicker';
 import {Button} from '../components/Button';
 import {useMemoizedClock, useSessionStore} from '../store/session-store';
 
+enum Modals {
+  None,
+  EditTime,
+  EditRepeats,
+}
+
 export const SessionSettingsScreen: FC = () => {
   const time = useMemoizedClock();
+  const repeats = useSessionStore(state => state.repeats);
   const changeSecondsFromTime = useSessionStore(
     state => state.changeSecondsFromTime,
   );
 
-  const [isEditTimeVisible, setIsEditTimeVisible] = useState(false);
+  const [visibleModal, setVisibleModal] = useState(Modals.None);
   return (
     <View
       style={{
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Text>{time}</Text>
-      <Button onPress={() => setIsEditTimeVisible(true)}>Edit Time</Button>
+      <Text>{repeats}</Text>
+      <Button onPress={() => setVisibleModal(Modals.EditRepeats)}>
+        Edit Repeats
+      </Button>
       <Modal
         animationType="slide"
         transparent={true}
-        visible={isEditTimeVisible}
+        visible={visibleModal === Modals.EditRepeats}
         onRequestClose={() => {
-          setIsEditTimeVisible(false);
+          setVisibleModal(Modals.None);
         }}>
         <TimePicker
           initialTime={time}
           onConfirm={confirmTime => {
             changeSecondsFromTime(confirmTime);
-            setIsEditTimeVisible(false);
+            setVisibleModal(Modals.None);
+          }}
+        />
+      </Modal>
+
+      <Text>{time}</Text>
+      <Button onPress={() => setVisibleModal(Modals.EditTime)}>
+        Edit Time
+      </Button>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={visibleModal === Modals.EditTime}
+        onRequestClose={() => {
+          setVisibleModal(Modals.None);
+        }}>
+        <TimePicker
+          initialTime={time}
+          onConfirm={confirmTime => {
+            changeSecondsFromTime(confirmTime);
+            setVisibleModal(Modals.None);
           }}
         />
       </Modal>
