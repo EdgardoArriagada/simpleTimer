@@ -19,6 +19,8 @@ export const SessionSettingsScreen: FC = () => {
   );
 
   const [visibleModal, setVisibleModal] = useState(Modals.None);
+  const closeModal = () => setVisibleModal(Modals.None);
+
   return (
     <View
       style={{
@@ -35,14 +37,12 @@ export const SessionSettingsScreen: FC = () => {
         animationType="slide"
         transparent={true}
         visible={visibleModal === Modals.EditRepeats}
-        onRequestClose={() => {
-          setVisibleModal(Modals.None);
-        }}>
+        onRequestClose={closeModal}>
         <TimePicker
           initialTime={time}
           onConfirm={confirmTime => {
             changeSecondsFromTime(confirmTime);
-            setVisibleModal(Modals.None);
+            closeModal();
           }}
         />
       </Modal>
@@ -55,14 +55,12 @@ export const SessionSettingsScreen: FC = () => {
         animationType="slide"
         transparent={true}
         visible={visibleModal === Modals.EditTime}
-        onRequestClose={() => {
-          setVisibleModal(Modals.None);
-        }}>
+        onRequestClose={closeModal}>
         <TimePicker
           initialTime={time}
           onConfirm={confirmTime => {
             changeSecondsFromTime(confirmTime);
-            setVisibleModal(Modals.None);
+            closeModal();
           }}
         />
       </Modal>
