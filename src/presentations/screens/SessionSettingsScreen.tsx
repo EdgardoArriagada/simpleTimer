@@ -5,6 +5,7 @@ import {TimePicker} from '../components/TimePicker';
 import {Button} from '../components/Button';
 import {useMemoizedClock, useSessionStore} from '../store/session-store';
 import {NumberPicker} from '../components/NumberPicker';
+import {AppModal} from '../components/AppModal';
 
 enum Modals {
   None,
@@ -35,9 +36,7 @@ export const SessionSettingsScreen: FC = () => {
       <Button onPress={() => setVisibleModal(Modals.EditRepeats)}>
         Edit Repeats
       </Button>
-      <Modal
-        animationType="slide"
-        transparent={true}
+      <AppModal
         visible={visibleModal === Modals.EditRepeats}
         onRequestClose={closeModal}>
         <NumberPicker
@@ -47,15 +46,14 @@ export const SessionSettingsScreen: FC = () => {
             closeModal();
           }}
         />
-      </Modal>
+      </AppModal>
 
       <Text>{time}</Text>
       <Button onPress={() => setVisibleModal(Modals.EditTime)}>
         Edit Time
       </Button>
-      <Modal
-        animationType="slide"
-        transparent={true}
+
+      <AppModal
         visible={visibleModal === Modals.EditTime}
         onRequestClose={closeModal}>
         <TimePicker
@@ -65,7 +63,7 @@ export const SessionSettingsScreen: FC = () => {
             closeModal();
           }}
         />
-      </Modal>
+      </AppModal>
     </View>
   );
 };
