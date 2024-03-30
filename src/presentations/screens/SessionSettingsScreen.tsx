@@ -1,11 +1,11 @@
 import React, {FC, useState} from 'react';
 
-import {View, Text, Modal} from 'react-native';
+import {View, Text} from 'react-native';
 import {TimePicker} from '../components/TimePicker';
 import {Button} from '../components/Button';
 import {useMemoizedClock, useSessionStore} from '../store/session-store';
 import {NumberPicker} from '../components/NumberPicker';
-import {AppModal} from '../components/AppModal';
+import {AppModal, ModalContent} from '../components/AppModal';
 
 enum Modals {
   None,

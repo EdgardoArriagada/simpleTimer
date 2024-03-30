@@ -4,6 +4,7 @@ import {View} from 'react-native';
 
 import WheelPicker from 'react-native-wheely';
 import {Button} from './Button';
+import {ModalContent, ModalFooter} from './AppModal';
 
 const allNumbers = Array.from({length: 10}, (_, i) => String(i + 1));
 
@@ -16,18 +17,15 @@ export const NumberPicker: FC<Props> = ({onConfirm, initialNumber}) => {
   const [currentNumber, setCurrentNumber] = useState(initialNumber);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
+    <ModalContent>
       <WheelPicker
         selectedIndex={currentNumber - 1}
         options={allNumbers}
         onChange={index => setCurrentNumber(index + 1)}
       />
-      <Button onPress={() => onConfirm(currentNumber)}>Confirm</Button>
-    </View>
+      <ModalFooter>
+        <Button onPress={() => onConfirm(currentNumber)}>Confirm</Button>
+      </ModalFooter>
+    </ModalContent>
   );
 };
