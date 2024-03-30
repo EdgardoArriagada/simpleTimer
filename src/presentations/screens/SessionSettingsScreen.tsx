@@ -3,9 +3,12 @@ import React, {FC, useState} from 'react';
 import {View, Text, Modal} from 'react-native';
 import {TimePicker} from '../components/TimePicker';
 import {Button} from '../components/Button';
+import {useSessionStore} from '../store/session-store';
 
 export const SessionSettingsScreen: FC = () => {
-  const [time, setTime] = useState('00:10');
+  const time = useSessionStore(state => state.time);
+  const changeTime = useSessionStore(state => state.changeTime);
+
   const [isEditTimeVisible, setIsEditTimeVisible] = useState(false);
   return (
     <View
@@ -27,7 +30,7 @@ export const SessionSettingsScreen: FC = () => {
         <TimePicker
           initialTime={time}
           onConfirm={confirmTime => {
-            setTime(confirmTime);
+            changeTime(confirmTime);
             setIsEditTimeVisible(false);
           }}
         />
