@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 import {create} from 'zustand';
-import {formatSecondsToClock} from '../utils/time/time';
+import {formatSecondsToClock, formatClockToSeconds} from '../utils/time/time';
 
 export type SessionStore = {
   seconds: number;
