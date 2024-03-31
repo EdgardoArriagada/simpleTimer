@@ -54,7 +54,7 @@ export const s = StyleSheet.create({
     elevation: 5,
   },
   modalFooter: {
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
     justifyContent: 'flex-end',
     gap: 10,
   },
