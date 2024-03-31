@@ -1,4 +1,4 @@
-import {FC, memo, useCallback, useState} from 'react';
+import {FC, memo, useCallback, useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useCountdown} from '../hooks/useCountdown';
 import {formatSecondsToClock} from '../utils/time/time';
@@ -106,13 +106,16 @@ const Countdown: FC = () => {
   const isRunning = useSessionStore(state => state.isRunning);
   const countdown = useSessionStore(state => state.countdown);
 
+  useEffect(() => {
+    if (countdown <= 0 && !isRunning) {
+      sound.play();
+    }
+  }, [countdown, isRunning]);
+
   if (!isRunning) return null;
 
   return <Text>{formatSecondsToClock(countdown)}</Text>;
 };
-
-const isGoingToFinishSerie = (repeatsLogs: string[], repeats: number) =>
-  repeatsLogs.length + 1 >= repeats;
 
 export const SessionScreen: FC = () => {
   const seriesLog = useSessionStore(state => state.seriesLog);

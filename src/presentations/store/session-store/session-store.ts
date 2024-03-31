@@ -78,7 +78,6 @@ export const useSessionStore = create<SessionStore>()(set => ({
           isRunning: false,
           interval: null,
           countdown: 0,
-          seconds: 10,
           seriesLog: newSeriesLog,
           repeatsLog: newRepeatsLog,
         };
