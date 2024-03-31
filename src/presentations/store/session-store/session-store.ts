@@ -22,7 +22,7 @@ export type SessionStore = {
   changeSeconds: (seconds: number) => void;
   changeSecondsFromTime: (time: string) => void;
   changeRepeats: (repeats: number) => void;
-  start: (seconds: number) => void;
+  startCountdown: (seconds: number) => void;
 };
 
 export const useSessionStore = create<SessionStore>()(set => ({
@@ -40,7 +40,7 @@ export const useSessionStore = create<SessionStore>()(set => ({
   changeSecondsFromTime: (time: string) =>
     set({seconds: formatClockToSeconds(time)}),
   changeRepeats: (repeats: number) => set({repeats}),
-  start: (seconds: number) => {
+  startCountdown: (seconds: number) => {
     const interval = setInterval(() => {
       set(prev => {
         if (prev.countdown > 0) {
