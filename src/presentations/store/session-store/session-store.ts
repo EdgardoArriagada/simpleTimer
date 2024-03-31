@@ -1,6 +1,9 @@
 import {useMemo} from 'react';
 import {create} from 'zustand';
-import {formatSecondsToClock, formatClockToSeconds} from '../utils/time/time';
+import {
+  formatSecondsToClock,
+  formatClockToSeconds,
+} from '../../utils/time/time';
 
 const isGoingToFinishSerie = (repeatsLogs: string[], repeats: number) =>
   repeatsLogs.length + 1 >= repeats;
@@ -38,45 +41,43 @@ export const useSessionStore = create<SessionStore>()(set => ({
     set({seconds: formatClockToSeconds(time)}),
   changeRepeats: (repeats: number) => set({repeats}),
   start: (seconds: number) => {
-    set(state => {
-      const interval = setInterval(() => {
-        set(prev => {
-          if (prev.countdown > 0) {
-            return {
-              countdown: prev.countdown - 1,
-            };
-          }
-
-          clearInterval(interval);
-          let newSeriesLog: string[];
-          let newRepeatsLog: string[];
-
-          if (isGoingToFinishSerie(prev.repeatsLog, prev.repeats)) {
-            newSeriesLog = [
-              ...prev.seriesLog,
-              `Serie of ${prev.repeats} repeats finished`,
-            ];
-            newRepeatsLog = [];
-          } else {
-            newRepeatsLog = [...prev.repeatsLog, formatSecondsToClock(seconds)];
-          }
-
+    const interval = setInterval(() => {
+      set(prev => {
+        if (prev.countdown > 0) {
           return {
-            isRunning: false,
-            interval: null,
-            countdown: 0,
-            seconds: 10,
-            seriesLog: newSeriesLog || prev.seriesLog,
-            repeatsLog: newRepeatsLog,
+            countdown: prev.countdown - 1,
           };
-        });
-      }, 1000);
+        }
 
-      return {
-        isRunning: true,
-        interval,
-        countdown: seconds,
-      };
+        clearInterval(interval);
+        let newSeriesLog = prev.seriesLog;
+        let newRepeatsLog: string[];
+
+        if (isGoingToFinishSerie(prev.repeatsLog, prev.repeats)) {
+          newSeriesLog = [
+            ...prev.seriesLog,
+            `Serie of ${prev.repeats} repeats finished`,
+          ];
+          newRepeatsLog = [];
+        } else {
+          newRepeatsLog = [...prev.repeatsLog, formatSecondsToClock(seconds)];
+        }
+
+        return {
+          isRunning: false,
+          interval: null,
+          countdown: 0,
+          seconds: 10,
+          seriesLog: newSeriesLog,
+          repeatsLog: newRepeatsLog,
+        };
+      });
+    }, 1000);
+
+    set({
+      isRunning: true,
+      interval,
+      countdown: seconds,
     });
   },
 }));
