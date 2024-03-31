@@ -34,7 +34,7 @@ const ItemLayout: FC<ItemLayoutProps> = ({onButtonPress, text, value}) => {
         secondary
         onPress={onButtonPress}
         renderIcon={({style}) => (
-          <Icon style={style} name="pencil-outline" size={30} color="#900" />
+          <Icon style={style} name="pencil-outline" size={30} />
         )}
       />
     </View>

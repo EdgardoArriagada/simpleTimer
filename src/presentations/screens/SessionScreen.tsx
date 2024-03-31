@@ -20,26 +20,28 @@ const sound = new Sound(soundAsset, Sound.MAIN_BUNDLE, error => {
 type ReadySessionProps = {
   start: () => void;
   time: string;
+  isRunning: boolean;
 };
 
-const ReadySession: FC<ReadySessionProps> = ({start, time}) => {
+const Controls: FC<ReadySessionProps> = ({start, time, isRunning}) => {
   return (
     <View
       style={{
-        display: 'flex',
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        borderWidth: 1,
+        backgroundColor: 'white',
         padding: 10,
       }}>
       <Text>{time}</Text>
 
       <Button
+        disabled={isRunning}
         onPress={start}
-        renderIcon={({style}) => (
-          <Icon style={style} name="play" size={30} color="#900" />
-        )}
+        renderIcon={({style}) => <Icon style={style} name="play" size={30} />}
       />
     </View>
   );
@@ -95,7 +97,11 @@ export const SessionScreen: FC = () => {
       <SerieLogList seriesLog={seriesLog} />
       <RepeatsLogList repeatsLog={repeatsLog} />
       {isRunning && <Text>{formatSecondsToClock(countdown)}</Text>}
-      {!isRunning && <ReadySession start={() => start(seconds)} time={time} />}
+      <Controls
+        isRunning={isRunning}
+        start={() => start(seconds)}
+        time={time}
+      />
     </View>
   );
 };
@@ -103,5 +109,6 @@ export const SessionScreen: FC = () => {
 const s = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'space-between',
   },
 });
