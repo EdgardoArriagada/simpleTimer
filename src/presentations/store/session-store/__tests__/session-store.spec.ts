@@ -1,5 +1,5 @@
 import {renderHook, act} from '@testing-library/react-native';
-import {useSessionStore} from '../session-store';
+import {SessionStore, useSessionStore} from '../session-store';
 
 jest.useFakeTimers();
 

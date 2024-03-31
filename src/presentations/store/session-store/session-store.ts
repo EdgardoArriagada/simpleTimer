@@ -54,7 +54,7 @@ export const useSessionStore = create<SessionStore>()(set => ({
   startCountdown: (seconds: number) => {
     const interval = setInterval(() => {
       set(prev => {
-        if (prev.countdown > 0) {
+        if (prev.countdown > 1) {
           return {
             countdown: prev.countdown - 1,
           };
