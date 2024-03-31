@@ -6,6 +6,7 @@ import {Button} from '../components/Button';
 import {useMemoizedClock, useSessionStore} from '../store/session-store';
 import soundAsset from '../assets/xylofon.wav';
 import Sound from 'react-native-sound';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 Sound.setCategory('Alarm');
 
@@ -33,7 +34,13 @@ const ReadySession: FC<ReadySessionProps> = ({start, time}) => {
         padding: 10,
       }}>
       <Text>{time}</Text>
-      <Button onPress={start}>▶</Button>
+
+      <Button
+        onPress={start}
+        renderIcon={({style}) => (
+          <Icon style={style} name="play" size={30} color="#900" />
+        )}
+      />
     </View>
   );
 };
