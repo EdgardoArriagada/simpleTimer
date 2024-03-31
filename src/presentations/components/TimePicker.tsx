@@ -13,7 +13,7 @@ const allMinutes = makeTimeElements(60);
 const allSeconds = makeTimeElements(60);
 
 type Props = {
-  onConfirm: (time: string) => void;
+  onConfirm: (newSeconds: number) => void;
   conCancel: () => void;
   initialTime: string;
 };
@@ -43,7 +43,7 @@ export const TimePicker: FC<Props> = ({onConfirm, conCancel, initialTime}) => {
         />
       </View>
       <ModalFooter>
-        <Button onPress={() => onConfirm(`${minutes}:${seconds}`)}>
+        <Button onPress={() => onConfirm(+minutes * 60 + +seconds)}>
           Confirm
         </Button>
 

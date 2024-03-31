@@ -45,9 +45,7 @@ export const SessionSettingsScreen: FC = () => {
   const time = useMemoizedClock();
   const repeats = useSessionStore(state => state.repeats);
   const changeRepeats = useSessionStore(state => state.changeRepeats);
-  const changeSecondsFromTime = useSessionStore(
-    state => state.changeSecondsFromTime,
-  );
+  const changeSeconds = useSessionStore(state => state.changeSeconds);
 
   const [visibleModal, setVisibleModal] = useState(Modals.None);
   const closeModal = () => setVisibleModal(Modals.None);
@@ -91,8 +89,8 @@ export const SessionSettingsScreen: FC = () => {
         <TimePicker
           initialTime={time}
           conCancel={closeModal}
-          onConfirm={confirmTime => {
-            changeSecondsFromTime(confirmTime);
+          onConfirm={newSeconds => {
+            changeSeconds(newSeconds);
             closeModal();
           }}
         />
