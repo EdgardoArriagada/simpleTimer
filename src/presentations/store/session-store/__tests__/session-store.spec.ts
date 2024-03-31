@@ -10,6 +10,14 @@ const runOneSecond = () =>
     jest.advanceTimersByTime(1000);
   });
 
+const startAndFinishCountdown = (result: {current: SessionStore}) => {
+  act(() => {
+    result.current.startCountdown(1);
+  });
+  runOneSecond();
+  runOneSecond();
+};
+
 const setup = () => {
   useSessionStore.setState(initialState);
 
@@ -17,26 +25,60 @@ const setup = () => {
   return result;
 };
 
-it('should run countdown', () => {
-  const result = setup();
+describe('When running countdown', () => {
+  it('should decrease to 0', () => {
+    const result = setup();
 
-  expect(result.current.countdown).toBe(0);
+    expect(result.current.countdown).toBe(0);
 
-  act(() => {
-    result.current.startCountdown(3);
+    act(() => {
+      result.current.startCountdown(3);
+    });
+
+    expect(result.current.countdown).toBe(3);
+
+    runOneSecond();
+    expect(result.current.countdown).toBe(2);
+
+    runOneSecond();
+    expect(result.current.countdown).toBe(1);
+
+    runOneSecond();
+    expect(result.current.countdown).toBe(0);
+
+    runOneSecond();
+    expect(result.current.countdown).toBe(0);
   });
 
-  expect(result.current.countdown).toBe(3);
+  it('should set logs properly', () => {
+    const result = setup();
+    expect(result.current.seriesLog).toStrictEqual([]);
+    expect(result.current.repeatsLog).toStrictEqual([]);
 
-  runOneSecond();
-  expect(result.current.countdown).toBe(2);
+    startAndFinishCountdown(result);
 
-  runOneSecond();
-  expect(result.current.countdown).toBe(1);
+    expect(result.current.seriesLog).toStrictEqual([]);
+    expect(result.current.repeatsLog).toStrictEqual(['00:01']);
 
-  runOneSecond();
-  expect(result.current.countdown).toBe(0);
+    startAndFinishCountdown(result);
 
-  runOneSecond();
-  expect(result.current.countdown).toBe(0);
+    expect(result.current.seriesLog).toStrictEqual([]);
+    expect(result.current.repeatsLog).toStrictEqual(['00:01', '00:01']);
+
+    startAndFinishCountdown(result);
+
+    expect(result.current.seriesLog).toStrictEqual([]);
+    expect(result.current.repeatsLog).toStrictEqual([
+      '00:01',
+      '00:01',
+      '00:01',
+    ]);
+
+    startAndFinishCountdown(result);
+
+    expect(result.current.seriesLog).toStrictEqual([
+      'Serie of 4 repeats finished',
+    ]);
+    expect(result.current.repeatsLog).toStrictEqual([]);
+  });
 });
