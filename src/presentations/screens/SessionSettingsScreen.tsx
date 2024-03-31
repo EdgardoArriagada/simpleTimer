@@ -5,7 +5,7 @@ import {TimePicker} from '../components/TimePicker';
 import {Button} from '../components/Button';
 import {useMemoizedClock, useSessionStore} from '../store/session-store';
 import {NumberPicker} from '../components/NumberPicker';
-import {AppModal, ModalContent} from '../components/AppModal';
+import {AppModal} from '../components/AppModal';
 
 enum Modals {
   None,

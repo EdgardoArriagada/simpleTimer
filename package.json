@@ -17,6 +17,7 @@
     "react-native-pager-view": "^6.2.3",
     "react-native-sound": "^0.11.2",
     "react-native-tab-view": "^3.5.2",
+    "react-native-vector-icons": "^10.0.3",
     "react-native-wheely": "^0.6.0",
     "zustand": "^4.5.2"
   },
