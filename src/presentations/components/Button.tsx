@@ -1,15 +1,25 @@
 import {FC, ComponentProps} from 'react';
-import {Pressable, StyleProp, StyleSheet, Text, ViewStyle} from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
 
 type Props = ComponentProps<typeof Pressable> & {
   style?: StyleProp<ViewStyle>;
   secondary?: boolean;
+  renderIcon?: (args: {style: StyleProp<TextStyle>}) => JSX.Element;
+  children?: JSX.Element;
 };
 
 export const Button: FC<Props> = ({
-  children = 'Button',
+  children = '',
   secondary: isSecondary,
   style,
+  renderIcon,
   ...props
 }) => {
   return (
@@ -26,8 +36,12 @@ export const Button: FC<Props> = ({
         style,
       ]}>
       {typeof children === 'string' ? (
-        <Text style={[s.text, isSecondary ? s.textSecondary : s.text]}>
+        <Text style={[s.text, isSecondary ? s.textSecondary : s.textPrimary]}>
           {children}
+          {renderIcon &&
+            renderIcon({
+              style: [s.text, isSecondary ? s.textSecondary : s.textPrimary],
+            })}
         </Text>
       ) : (
         children
@@ -52,11 +66,12 @@ const s = StyleSheet.create({
     backgroundColor: '#c4c3f7',
   },
   text: {
-    color: 'white',
     fontSize: 16,
+  },
+  textPrimary: {
+    color: 'white',
   },
   textSecondary: {
     color: '#5856D6',
-    fontSize: 16,
   },
 });
