@@ -42,20 +42,21 @@ const Controls: FC<ReadySessionProps> = memo(
           backgroundColor: 'white',
           padding: 10,
         }}>
+        <Button
+          secondary
+          disabled={isRunning}
+          onPress={onClear}
+          renderIcon={({style}) => (
+            <Icon style={style} name="trash" size={30} />
+          )}
+        />
+
         <Text>{time}</Text>
 
         <Button
           disabled={isRunning}
           onPress={onStart}
           renderIcon={({style}) => <Icon style={style} name="play" size={30} />}
-        />
-
-        <Button
-          disabled={isRunning}
-          onPress={onClear}
-          renderIcon={({style}) => (
-            <Icon style={style} name="trash" size={30} />
-          )}
         />
       </View>
     );
