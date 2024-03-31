@@ -1,9 +1,10 @@
-import {FC, memo, useCallback, useMemo, useState} from 'react';
+import {FC, memo, useCallback, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useCountdown} from '../hooks/useCountdown';
 import {formatSecondsToClock} from '../utils/time/time';
 import {Button} from '../components/Button';
 import {useMemoizedClock, useSessionStore} from '../store/session-store';
+// @ts-ignore
 import soundAsset from '../assets/xylofon.wav';
 import Sound from 'react-native-sound';
 import Icon from 'react-native-vector-icons/Ionicons';
