@@ -57,7 +57,9 @@ const Controls: FC = () => {
   );
 };
 
-const RepeatsLogList: FC<{repeatsLog: string[]}> = memo(({repeatsLog}) => {
+const RepeatsLogList: FC = () => {
+  const repeatsLog = useSessionStore(state => state.repeatsLog);
+
   return (
     <View>
       {repeatsLog.map((repeat, index) => (
@@ -65,9 +67,11 @@ const RepeatsLogList: FC<{repeatsLog: string[]}> = memo(({repeatsLog}) => {
       ))}
     </View>
   );
-});
+};
 
-const SerieLogList: FC<{seriesLog: string[]}> = memo(({seriesLog}) => {
+const SerieLogList: FC = () => {
+  const seriesLog = useSessionStore(state => state.seriesLog);
+
   return (
     <View>
       {seriesLog.map((serie, index) => (
@@ -75,7 +79,7 @@ const SerieLogList: FC<{seriesLog: string[]}> = memo(({seriesLog}) => {
       ))}
     </View>
   );
-});
+};
 
 const ConfirmModal: FC = () => {
   const isClearModalVisible = useSessionStore(
@@ -118,13 +122,10 @@ const Countdown: FC = () => {
 };
 
 export const SessionScreen: FC = () => {
-  const seriesLog = useSessionStore(state => state.seriesLog);
-  const repeatsLog = useSessionStore(state => state.repeatsLog);
-
   return (
     <View style={s.container}>
-      <SerieLogList seriesLog={seriesLog} />
-      <RepeatsLogList repeatsLog={repeatsLog} />
+      <SerieLogList />
+      <RepeatsLogList />
       <Countdown />
       <Controls />
       <ConfirmModal />
