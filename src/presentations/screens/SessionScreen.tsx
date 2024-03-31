@@ -1,6 +1,5 @@
-import {FC, memo, useCallback, useEffect, useState} from 'react';
+import {FC, useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {useCountdown} from '../hooks/useCountdown';
 import {formatSecondsToClock} from '../utils/time/time';
 import {Button} from '../components/Button';
 import {useMemoizedClock, useSessionStore} from '../store/session-store';
@@ -9,7 +8,6 @@ import soundAsset from '../assets/xylofon.wav';
 import Sound from 'react-native-sound';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {AppModal, ModalContent, ModalFooter} from '../components/AppModal';
-import {useBoolean} from '../hooks/useBoolean';
 
 Sound.setCategory('Alarm');
 
@@ -111,9 +109,11 @@ const Countdown: FC = () => {
   const countdown = useSessionStore(state => state.countdown);
 
   useEffect(() => {
-    if (countdown <= 0 && !isRunning) {
-      sound.play();
-    }
+    return () => {
+      if (countdown <= 1 && isRunning) {
+        sound.play();
+      }
+    };
   }, [countdown, isRunning]);
 
   if (!isRunning) return null;
