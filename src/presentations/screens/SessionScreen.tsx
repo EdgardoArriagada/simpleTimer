@@ -8,6 +8,7 @@ import soundAsset from '../assets/xylofon.wav';
 import Sound from 'react-native-sound';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {AppModal, ModalContent, ModalFooter} from '../components/AppModal';
+import {gs} from '../../config/theme';
 
 Sound.setCategory('Alarm');
 
@@ -55,25 +56,37 @@ const Controls: FC = () => {
   );
 };
 
-const RepeatsLogList: FC = () => {
-  const repeatsLog = useSessionStore(state => state.repeatsLog);
+const SerieLogList: FC = () => {
+  const seriesLog = useSessionStore(state => state.seriesLog);
 
   return (
-    <View>
-      {repeatsLog.map((repeat, index) => (
-        <Text key={index}>{repeat}</Text>
+    <View
+      style={{
+        padding: 10,
+        gap: 2,
+      }}>
+      {seriesLog.map((serie, index) => (
+        <Text style={gs.seriesLog} key={index}>
+          {serie}
+        </Text>
       ))}
     </View>
   );
 };
 
-const SerieLogList: FC = () => {
-  const seriesLog = useSessionStore(state => state.seriesLog);
+const RepeatsLogList: FC = () => {
+  const repeatsLog = useSessionStore(state => state.repeatsLog);
 
   return (
-    <View>
-      {seriesLog.map((serie, index) => (
-        <Text key={index}>{serie}</Text>
+    <View
+      style={{
+        padding: 10,
+        gap: 2,
+      }}>
+      {repeatsLog.map((repeat, index) => (
+        <Text style={gs.repeatsLog} key={index}>
+          {repeat}
+        </Text>
       ))}
     </View>
   );
@@ -118,7 +131,7 @@ const Countdown: FC = () => {
 
   if (!isRunning) return null;
 
-  return <Text>{formatSecondsToClock(countdown)}</Text>;
+  return <Text style={gs.countdown}>{formatSecondsToClock(countdown)}</Text>;
 };
 
 export const SessionScreen: FC = () => {
@@ -126,7 +139,9 @@ export const SessionScreen: FC = () => {
     <View style={s.container}>
       <SerieLogList />
       <RepeatsLogList />
-      <Countdown />
+      <View style={gs.countdownContainer}>
+        <Countdown />
+      </View>
       <Controls />
       <ConfirmModal />
     </View>

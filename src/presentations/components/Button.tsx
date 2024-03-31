@@ -7,6 +7,7 @@ import {
   TextStyle,
   ViewStyle,
 } from 'react-native';
+import {colors} from '../../config/theme';
 
 type Props = ComponentProps<typeof Pressable> & {
   style?: StyleProp<ViewStyle>;
@@ -67,16 +68,16 @@ const s = StyleSheet.create({
     borderRadius: 30,
   },
   buttonPrimary: {
-    backgroundColor: '#5856D6',
+    backgroundColor: colors.primary,
   },
   buttonPrimaryPressed: {
-    backgroundColor: '#4746AB',
+    backgroundColor: colors.primaryDark,
   },
   buttonPrimaryDisabled: {
-    backgroundColor: '#c7c5c5',
+    backgroundColor: colors.gray,
   },
   buttonSecondaryPressed: {
-    backgroundColor: '#c4c3f7',
+    backgroundColor: colors.secondary,
   },
   buttonSecondaryDisabled: {},
   text: {
@@ -86,12 +87,12 @@ const s = StyleSheet.create({
     color: 'white',
   },
   textPrimaryDisabled: {
-    color: '#dbd9d9',
+    color: colors.lightGray,
   },
   textSecondary: {
-    color: '#5856D6',
+    color: colors.primary,
   },
   textSecondaryDisabled: {
-    color: '#b3b3b3',
+    color: colors.middleGray,
   },
 });
