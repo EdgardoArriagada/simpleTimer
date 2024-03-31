@@ -24,7 +24,6 @@ const Controls: FC = () => {
   const startCountdown = useSessionStore(state => state.startCountdown);
   const showClearModal = useSessionStore(state => state.showClearModal);
   const seconds = useSessionStore(state => state.seconds);
-  const time = useMemoizedClock();
 
   return (
     <View
@@ -43,7 +42,7 @@ const Controls: FC = () => {
         renderIcon={({style}) => <Icon style={style} name="trash" size={30} />}
       />
 
-      <Text>{time}</Text>
+      <Text>{formatSecondsToClock(seconds)}</Text>
 
       <Button
         disabled={isRunning}

@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useRef} from 'react';
+import {useEffect, useRef} from 'react';
 import {create} from 'zustand';
 import {formatSecondsToClock} from '../../utils/time/time';
 
@@ -104,10 +104,4 @@ export const useUnmountInterval = () => {
       }
     };
   }, []);
-};
-
-export const useMemoizedClock = () => {
-  const seconds = useSessionStore(state => state.seconds);
-
-  return useMemo(() => formatSecondsToClock(seconds), [seconds]);
 };

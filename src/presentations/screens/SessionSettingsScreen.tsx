@@ -3,10 +3,11 @@ import React, {FC, useState} from 'react';
 import {View, Text} from 'react-native';
 import {TimePicker} from '../components/TimePicker';
 import {Button} from '../components/Button';
-import {useMemoizedClock, useSessionStore} from '../store/session-store';
+import {useSessionStore} from '../store/session-store';
 import {NumberPicker} from '../components/NumberPicker';
 import {AppModal} from '../components/AppModal';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {formatSecondsToClock} from '../utils/time/time';
 
 enum Modals {
   None,
@@ -42,8 +43,9 @@ const ItemLayout: FC<ItemLayoutProps> = ({onButtonPress, text, value}) => {
 };
 
 export const SessionSettingsScreen: FC = () => {
-  const time = useMemoizedClock();
   const repeats = useSessionStore(state => state.repeats);
+  const seconds = useSessionStore(state => state.seconds);
+  const time = formatSecondsToClock(seconds);
   const changeRepeats = useSessionStore(state => state.changeRepeats);
   const changeSeconds = useSessionStore(state => state.changeSeconds);
 
