@@ -12,6 +12,9 @@ export type SessionStore = {
   // Config
   seconds: number;
   repeats: number;
+  changeSeconds: (seconds: number) => void;
+  changeSecondsFromTime: (time: string) => void;
+  changeRepeats: (repeats: number) => void;
 
   // Countdown
   countdown: number;
@@ -19,16 +22,22 @@ export type SessionStore = {
   seriesLog: string[];
   isRunning: boolean;
   interval: NodeJS.Timeout | null;
-  changeSeconds: (seconds: number) => void;
-  changeSecondsFromTime: (time: string) => void;
-  changeRepeats: (repeats: number) => void;
   startCountdown: (seconds: number) => void;
+
+  // ClearModal
+  isClearModalVisible: boolean;
+  openClearModal: () => void;
+  closeClearModal: () => void;
 };
 
 export const useSessionStore = create<SessionStore>()(set => ({
   // Config
   seconds: 10,
   repeats: 4,
+  changeSeconds: (seconds: number) => set({seconds}),
+  changeSecondsFromTime: (time: string) =>
+    set({seconds: formatClockToSeconds(time)}),
+  changeRepeats: (repeats: number) => set({repeats}),
 
   // Countdown
   countdown: 0,
@@ -36,10 +45,6 @@ export const useSessionStore = create<SessionStore>()(set => ({
   seriesLog: [],
   isRunning: false,
   interval: null,
-  changeSeconds: (seconds: number) => set({seconds}),
-  changeSecondsFromTime: (time: string) =>
-    set({seconds: formatClockToSeconds(time)}),
-  changeRepeats: (repeats: number) => set({repeats}),
   startCountdown: (seconds: number) => {
     const interval = setInterval(() => {
       set(prev => {
@@ -80,6 +85,11 @@ export const useSessionStore = create<SessionStore>()(set => ({
       countdown: seconds,
     });
   },
+
+  // ClearModal
+  isClearModalVisible: false,
+  openClearModal: () => set({isClearModalVisible: true}),
+  closeClearModal: () => set({isClearModalVisible: false}),
 }));
 
 export const useUnmountInterval = () => {
