@@ -20,48 +20,42 @@ const sound = new Sound(soundAsset, Sound.MAIN_BUNDLE, error => {
   }
 });
 
-type ReadySessionProps = {
-  onStart: () => void;
-  onClear: () => void;
-  isRunning: boolean;
+const Controls: FC = () => {
+  const isRunning = useSessionStore(state => state.isRunning);
+  const startCountdown = useSessionStore(state => state.startCountdown);
+  const showClearModal = useSessionStore(state => state.showClearModal);
+  const seconds = useSessionStore(state => state.seconds);
+  const time = useMemoizedClock();
+
+  return (
+    <View
+      style={{
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        padding: 10,
+      }}>
+      <Button
+        secondary
+        disabled={isRunning}
+        onPress={showClearModal}
+        renderIcon={({style}) => <Icon style={style} name="trash" size={30} />}
+      />
+
+      <Text>{time}</Text>
+
+      <Button
+        disabled={isRunning}
+        onPress={() => startCountdown(seconds)}
+        renderIcon={({style}) => <Icon style={style} name="play" size={30} />}
+      />
+    </View>
+  );
 };
-
-const Controls: FC<ReadySessionProps> = memo(
-  ({onStart, onClear, isRunning}) => {
-    const time = useMemoizedClock();
-
-    return (
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          backgroundColor: 'white',
-          padding: 10,
-        }}>
-        <Button
-          secondary
-          disabled={isRunning}
-          onPress={onClear}
-          renderIcon={({style}) => (
-            <Icon style={style} name="trash" size={30} />
-          )}
-        />
-
-        <Text>{time}</Text>
-
-        <Button
-          disabled={isRunning}
-          onPress={onStart}
-          renderIcon={({style}) => <Icon style={style} name="play" size={30} />}
-        />
-      </View>
-    );
-  },
-);
 
 const RepeatsLogList: FC<{repeatsLog: string[]}> = memo(({repeatsLog}) => {
   return (
@@ -83,84 +77,54 @@ const SerieLogList: FC<{seriesLog: string[]}> = memo(({seriesLog}) => {
   );
 });
 
-type ConfirmModalProps = {
-  visible: boolean;
-  onRequestClose: () => void;
-  onClear: () => void;
-  onCancel: () => void;
+const ConfirmModal: FC = () => {
+  const isClearModalVisible = useSessionStore(
+    state => state.isClearModalVisible,
+  );
+  const hideClearModal = useSessionStore(state => state.hideClearModal);
+  const clearSession = useSessionStore(state => state.clearSession);
+
+  return (
+    <AppModal visible={isClearModalVisible} onRequestClose={hideClearModal}>
+      <ModalContent>
+        <Text>Are you sure you want to clear the session?</Text>
+        <ModalFooter
+          style={{
+            marginTop: 50,
+          }}>
+          <Button onPress={clearSession}>Clear</Button>
+          <Button secondary onPress={hideClearModal}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </AppModal>
+  );
 };
 
-const ConfirmModal: FC<ConfirmModalProps> = memo(
-  ({visible, onRequestClose, onClear, onCancel}) => {
-    return (
-      <AppModal visible={visible} onRequestClose={onRequestClose}>
-        <ModalContent>
-          <Text>Are you sure you want to clear the session?</Text>
-          <ModalFooter
-            style={{
-              marginTop: 50,
-            }}>
-            <Button onPress={onClear}>Clear</Button>
-            <Button secondary onPress={onCancel}>
-              Cancel
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </AppModal>
-    );
-  },
-);
+const Countdown: FC = () => {
+  const isRunning = useSessionStore(state => state.isRunning);
+  const countdown = useSessionStore(state => state.countdown);
+
+  if (!isRunning) return null;
+
+  return <Text>{formatSecondsToClock(countdown)}</Text>;
+};
 
 const isGoingToFinishSerie = (repeatsLogs: string[], repeats: number) =>
   repeatsLogs.length + 1 >= repeats;
 
 export const SessionScreen: FC = () => {
-  const [isClearModalVisible, showClearModal, hideClearModal] =
-    useBoolean(false);
-
-  const [repeatsLog, setRepeatsLog] = useState<string[]>([]);
-  const [seriesLog, setSeriesLog] = useState<string[]>([]);
-
-  const seconds = useSessionStore(state => state.seconds);
-  const repeats = useSessionStore(state => state.repeats);
-
-  const [countdown, isRunning, start] = useCountdown(startSeconds => {
-    if (isGoingToFinishSerie(repeatsLog, repeats)) {
-      setSeriesLog([...seriesLog, `Serie of ${repeats} repeats finished`]);
-      setRepeatsLog([]);
-    } else {
-      setRepeatsLog([...repeatsLog, formatSecondsToClock(startSeconds)]);
-    }
-    sound.play();
-  });
-
-  const startCountdown = useCallback(() => {
-    start(seconds);
-  }, [seconds, start]);
-
-  const handleOnClear = useCallback(() => {
-    hideClearModal();
-    setRepeatsLog([]);
-    setSeriesLog([]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const seriesLog = useSessionStore(state => state.seriesLog);
+  const repeatsLog = useSessionStore(state => state.repeatsLog);
 
   return (
     <View style={s.container}>
       <SerieLogList seriesLog={seriesLog} />
       <RepeatsLogList repeatsLog={repeatsLog} />
-      {isRunning && <Text>{formatSecondsToClock(countdown)}</Text>}
-      <Controls
-        isRunning={isRunning}
-        onStart={startCountdown}
-        onClear={showClearModal}
-      />
-      <ConfirmModal
-        visible={isClearModalVisible}
-        onRequestClose={hideClearModal}
-        onClear={handleOnClear}
-        onCancel={hideClearModal}
-      />
+      <Countdown />
+      <Controls />
+      <ConfirmModal />
     </View>
   );
 };
