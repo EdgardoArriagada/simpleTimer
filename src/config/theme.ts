@@ -26,13 +26,20 @@ export const gs = StyleSheet.create({
     color: colors.secondary,
     fontWeight: '500',
   },
-  countdownContainer: {
-    width: '100%',
-    alignItems: 'center',
-  },
   countdown: {
     fontSize: 20,
+    width: '100%',
+    textAlign: 'center',
+    backgroundColor: colors.secondary,
     color: colors.primary,
     fontWeight: '700',
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    backgroundColor: colors.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

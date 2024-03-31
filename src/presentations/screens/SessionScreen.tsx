@@ -29,8 +29,6 @@ const Controls: FC = () => {
   return (
     <View
       style={{
-        position: 'absolute',
-        bottom: 0,
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -145,11 +143,11 @@ export const SessionScreen: FC = () => {
       <View style={gs.seriesLogContainer}>
         <RepeatsLogList />
       </View>
-      <View style={gs.countdownContainer}>
-        <Countdown />
-      </View>
-      <Controls />
       <ConfirmModal />
+      <View style={gs.footer}>
+        <Countdown />
+        <Controls />
+      </View>
     </View>
   );
 };
