@@ -1,7 +1,5 @@
 import React, {FC, useState} from 'react';
 
-import {View} from 'react-native';
-
 import WheelPicker from 'react-native-wheely';
 import {Button} from './Button';
 import {ModalContent, ModalFooter} from './AppModal';
@@ -10,10 +8,15 @@ const allNumbers = Array.from({length: 10}, (_, i) => String(i + 1));
 
 type Props = {
   onConfirm: (newNumber: number) => void;
+  onCancel: () => void;
   initialNumber: number;
 };
 
-export const NumberPicker: FC<Props> = ({onConfirm, initialNumber}) => {
+export const NumberPicker: FC<Props> = ({
+  onConfirm,
+  onCancel,
+  initialNumber,
+}) => {
   const [currentNumber, setCurrentNumber] = useState(initialNumber);
 
   return (
@@ -25,6 +28,9 @@ export const NumberPicker: FC<Props> = ({onConfirm, initialNumber}) => {
       />
       <ModalFooter>
         <Button onPress={() => onConfirm(currentNumber)}>Confirm</Button>
+        <Button secondary onPress={onCancel}>
+          Cancel
+        </Button>
       </ModalFooter>
     </ModalContent>
   );

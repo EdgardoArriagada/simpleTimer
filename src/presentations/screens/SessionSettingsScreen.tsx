@@ -40,6 +40,7 @@ export const SessionSettingsScreen: FC = () => {
         visible={visibleModal === Modals.EditRepeats}
         onRequestClose={closeModal}>
         <NumberPicker
+          onCancel={closeModal}
           initialNumber={repeats}
           onConfirm={newRepeats => {
             changeRepeats(newRepeats);
