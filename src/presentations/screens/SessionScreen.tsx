@@ -91,6 +91,11 @@ const ConfirmModal: FC = () => {
   const hideClearModal = useSessionStore(state => state.hideClearModal);
   const clearSession = useSessionStore(state => state.clearSession);
 
+  const onConfirm = () => {
+    clearSession();
+    hideClearModal();
+  }
+
   return (
     <AppModal visible={isClearModalVisible} onRequestClose={hideClearModal}>
       <ModalContent>
@@ -99,7 +104,7 @@ const ConfirmModal: FC = () => {
           style={{
             marginTop: 50,
           }}>
-          <Button onPress={clearSession}>Clear</Button>
+          <Button onPress={onConfirm}>Clear</Button>
           <Button secondary onPress={hideClearModal}>
             Cancel
           </Button>
