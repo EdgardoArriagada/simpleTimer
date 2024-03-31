@@ -111,7 +111,7 @@ const ConfirmModal: FC<ConfirmModalProps> = memo(
 );
 
 const isGoingToFinishSerie = (repeatsLogs: string[], repeats: number) =>
-  repeatsLogs.length + 1 === repeats;
+  repeatsLogs.length + 1 >= repeats;
 
 export const SessionScreen: FC = () => {
   const [isClearModalVisible, showClearModal, hideClearModal] =
