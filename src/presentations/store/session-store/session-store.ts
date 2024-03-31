@@ -1,4 +1,4 @@
-import {useMemo} from 'react';
+import {useEffect, useMemo, useRef} from 'react';
 import {create} from 'zustand';
 import {
   formatSecondsToClock,
@@ -81,6 +81,21 @@ export const useSessionStore = create<SessionStore>()(set => ({
     });
   },
 }));
+
+export const useUnmountInterval = () => {
+  const interval = useSessionStore(state => state.interval);
+  const ref = useRef<NodeJS.Timeout | null>(null);
+
+  ref.current = interval;
+
+  useEffect(() => {
+    return () => {
+      if (ref.current) {
+        clearInterval(ref.current);
+      }
+    };
+  }, []);
+};
 
 export const useMemoizedClock = () => {
   const seconds = useSessionStore(state => state.seconds);
