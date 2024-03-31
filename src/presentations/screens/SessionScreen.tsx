@@ -60,11 +60,7 @@ const SerieLogList: FC = () => {
   const seriesLog = useSessionStore(state => state.seriesLog);
 
   return (
-    <View
-      style={{
-        padding: 10,
-        gap: 2,
-      }}>
+    <View>
       {seriesLog.map((serie, index) => (
         <Text style={gs.seriesLog} key={index}>
           {serie}
@@ -78,11 +74,7 @@ const RepeatsLogList: FC = () => {
   const repeatsLog = useSessionStore(state => state.repeatsLog);
 
   return (
-    <View
-      style={{
-        padding: 10,
-        gap: 2,
-      }}>
+    <View>
       {repeatsLog.map((repeat, index) => (
         <Text style={gs.repeatsLog} key={index}>
           {repeat}
@@ -137,8 +129,12 @@ const Countdown: FC = () => {
 export const SessionScreen: FC = () => {
   return (
     <View style={s.container}>
-      <SerieLogList />
-      <RepeatsLogList />
+      <View style={gs.repeatsLogContainer}>
+        <SerieLogList />
+      </View>
+      <View style={gs.seriesLogContainer}>
+        <RepeatsLogList />
+      </View>
       <View style={gs.countdownContainer}>
         <Countdown />
       </View>

@@ -10,6 +10,12 @@ export const colors = {
 };
 
 export const gs = StyleSheet.create({
+  repeatsLogContainer: {
+    padding: 10,
+  },
+  seriesLogContainer: {
+    padding: 10,
+  },
   seriesLog: {
     fontSize: 20,
     color: colors.primary,
@@ -17,15 +23,16 @@ export const gs = StyleSheet.create({
   },
   repeatsLog: {
     fontSize: 15,
-    color: colors.primary,
+    color: colors.secondary,
     fontWeight: '500',
   },
   countdownContainer: {
-    margin: 20,
+    width: '100%',
+    alignItems: 'center',
   },
   countdown: {
     fontSize: 20,
-    color: colors.secondary,
+    color: colors.primary,
     fontWeight: '700',
   },
 });
