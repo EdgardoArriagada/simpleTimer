@@ -7,6 +7,7 @@ import {useMemoizedClock, useSessionStore} from '../store/session-store';
 import soundAsset from '../assets/xylofon.wav';
 import Sound from 'react-native-sound';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {AppModal, ModalContent, ModalFooter} from '../components/AppModal';
 
 Sound.setCategory('Alarm');
 
@@ -19,6 +20,7 @@ const sound = new Sound(soundAsset, Sound.MAIN_BUNDLE, error => {
 
 type ReadySessionProps = {
   onStart: () => void;
+  onClear: () => void;
   time: string;
   isRunning: boolean;
 };
@@ -86,6 +88,7 @@ const isGoingToFinishSerie = (repeatsLogs: string[], repeats: number) =>
   repeatsLogs.length + 1 === repeats;
 
 export const SessionScreen: FC = () => {
+  const [isClearModalVisible, showClearModal] = useState(false);
   const [repeatsLog, setRepeatsLog] = useState<string[]>([]);
   const [seriesLog, setSeriesLog] = useState<string[]>([]);
 
@@ -103,6 +106,12 @@ export const SessionScreen: FC = () => {
     sound.play();
   });
 
+  const handleOnClear = () => {
+    showClearModal(false);
+    setRepeatsLog([]);
+    setSeriesLog([]);
+  };
+
   return (
     <View style={s.container}>
       <SerieLogList seriesLog={seriesLog} />
@@ -111,12 +120,25 @@ export const SessionScreen: FC = () => {
       <Controls
         isRunning={isRunning}
         onStart={() => start(seconds)}
-        onClear={() => {
-          setRepeatsLog([]);
-          setSeriesLog([]);
-        }}
+        onClear={() => showClearModal(true)}
         time={time}
       />
+      <AppModal
+        visible={isClearModalVisible}
+        onRequestClose={() => showClearModal(false)}>
+        <ModalContent>
+          <Text>Are you sure you want to clear the session?</Text>
+          <ModalFooter
+            style={{
+              marginTop: 50,
+            }}>
+            <Button onPress={handleOnClear}>Clear</Button>
+            <Button secondary onPress={() => showClearModal(false)}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </AppModal>
     </View>
   );
 };

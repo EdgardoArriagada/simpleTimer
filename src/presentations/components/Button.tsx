@@ -12,7 +12,7 @@ type Props = ComponentProps<typeof Pressable> & {
   style?: StyleProp<ViewStyle>;
   secondary?: boolean;
   renderIcon?: (args: {style: StyleProp<TextStyle>}) => JSX.Element;
-  children?: JSX.Element;
+  children?: JSX.Element | string;
 };
 
 export const Button: FC<Props> = ({

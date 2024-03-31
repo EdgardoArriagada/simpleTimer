@@ -43,7 +43,6 @@ export const s = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -55,7 +54,7 @@ export const s = StyleSheet.create({
   },
   modalFooter: {
     flexDirection: 'row-reverse',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     gap: 10,
   },
 });
