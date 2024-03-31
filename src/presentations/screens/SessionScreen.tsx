@@ -94,12 +94,17 @@ const ConfirmModal: FC = () => {
   const onConfirm = () => {
     clearSession();
     hideClearModal();
-  }
+  };
 
   return (
     <AppModal visible={isClearModalVisible} onRequestClose={hideClearModal}>
       <ModalContent>
-        <Text>Are you sure you want to clear the session?</Text>
+        <Text
+          style={{
+            marginTop: 20,
+          }}>
+          Are you sure you want to clear the session?
+        </Text>
         <ModalFooter
           style={{
             marginTop: 50,
