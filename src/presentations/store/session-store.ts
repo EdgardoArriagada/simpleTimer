@@ -5,6 +5,9 @@ import {formatSecondsToClock, formatClockToSeconds} from '../utils/time/time';
 export type SessionStore = {
   seconds: number;
   repeats: number;
+  repeatsLog: string[];
+  seriesLog: string[];
+  isRunning: boolean;
   changeSeconds: (seconds: number) => void;
   changeSecondsFromTime: (time: string) => void;
   changeRepeats: (repeats: number) => void;
@@ -13,6 +16,9 @@ export type SessionStore = {
 export const useSessionStore = create<SessionStore>()(set => ({
   seconds: 10,
   repeats: 4,
+  repeatsLog: [],
+  seriesLog: [],
+  isRunning: false,
   changeSeconds: (seconds: number) => set({seconds}),
   changeSecondsFromTime: (time: string) =>
     set({seconds: formatClockToSeconds(time)}),
