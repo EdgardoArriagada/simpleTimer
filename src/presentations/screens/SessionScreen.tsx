@@ -18,12 +18,17 @@ const sound = new Sound(soundAsset, Sound.MAIN_BUNDLE, error => {
 });
 
 type ReadySessionProps = {
-  start: () => void;
+  onStart: () => void;
   time: string;
   isRunning: boolean;
 };
 
-const Controls: FC<ReadySessionProps> = ({start, time, isRunning}) => {
+const Controls: FC<ReadySessionProps> = ({
+  onStart,
+  onClear,
+  time,
+  isRunning,
+}) => {
   return (
     <View
       style={{
@@ -40,8 +45,14 @@ const Controls: FC<ReadySessionProps> = ({start, time, isRunning}) => {
 
       <Button
         disabled={isRunning}
-        onPress={start}
+        onPress={onStart}
         renderIcon={({style}) => <Icon style={style} name="play" size={30} />}
+      />
+
+      <Button
+        disabled={isRunning}
+        onPress={onClear}
+        renderIcon={({style}) => <Icon style={style} name="trash" size={30} />}
       />
     </View>
   );
@@ -99,7 +110,11 @@ export const SessionScreen: FC = () => {
       {isRunning && <Text>{formatSecondsToClock(countdown)}</Text>}
       <Controls
         isRunning={isRunning}
-        start={() => start(seconds)}
+        onStart={() => start(seconds)}
+        onClear={() => {
+          setRepeatsLog([]);
+          setSeriesLog([]);
+        }}
         time={time}
       />
     </View>
@@ -109,6 +124,5 @@ export const SessionScreen: FC = () => {
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
   },
 });
