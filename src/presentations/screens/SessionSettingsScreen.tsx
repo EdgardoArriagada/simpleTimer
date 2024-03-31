@@ -58,6 +58,7 @@ export const SessionSettingsScreen: FC = () => {
         onRequestClose={closeModal}>
         <TimePicker
           initialTime={time}
+          conCancel={closeModal}
           onConfirm={confirmTime => {
             changeSecondsFromTime(confirmTime);
             closeModal();

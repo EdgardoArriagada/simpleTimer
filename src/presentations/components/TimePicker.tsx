@@ -14,10 +14,11 @@ const allSeconds = makeTimeElements(60);
 
 type Props = {
   onConfirm: (time: string) => void;
+  conCancel: () => void;
   initialTime: string;
 };
 
-export const TimePicker: FC<Props> = ({onConfirm, initialTime}) => {
+export const TimePicker: FC<Props> = ({onConfirm, conCancel, initialTime}) => {
   const [minutes, setMinutes] = useState(() => initialTime.split(':')[0]);
   const [seconds, setSeconds] = useState(() => initialTime.split(':')[1]);
 
@@ -44,6 +45,10 @@ export const TimePicker: FC<Props> = ({onConfirm, initialTime}) => {
       <ModalFooter>
         <Button onPress={() => onConfirm(`${minutes}:${seconds}`)}>
           Confirm
+        </Button>
+
+        <Button secondary onPress={conCancel}>
+          Cancel
         </Button>
       </ModalFooter>
     </ModalContent>
