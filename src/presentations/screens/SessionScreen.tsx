@@ -2,7 +2,11 @@ import {FC, useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {formatSecondsToClock} from '../utils/time/time';
 import {Button} from '../components/Button';
-import {useMemoizedClock, useSessionStore} from '../store/session-store';
+import {
+  useMemoizedClock,
+  useSessionStore,
+  useUnmountInterval,
+} from '../store/session-store';
 // @ts-ignore
 import soundAsset from '../assets/xylofon.wav';
 import Sound from 'react-native-sound';
@@ -119,6 +123,8 @@ const ConfirmModal: FC = () => {
 const Countdown: FC = () => {
   const isRunning = useSessionStore(state => state.isRunning);
   const countdown = useSessionStore(state => state.countdown);
+
+  useUnmountInterval();
 
   useEffect(() => {
     return () => {
