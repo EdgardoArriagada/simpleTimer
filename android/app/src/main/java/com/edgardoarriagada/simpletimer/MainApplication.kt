@@ -1,4 +1,4 @@
-package com.simpletimer
+package com.edgardoarriagada.simpletimer
 
 import android.app.Application
 import com.facebook.react.PackageList

@@ -1,4 +1,4 @@
-package com.simpletimer
+package com.edgardoarriagada.simpletimer
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
